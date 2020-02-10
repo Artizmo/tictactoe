@@ -1,0 +1,61 @@
+
+
+$border: .1em solid #000;
+
+.board {
+  width: 14em;
+  height: 14em;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
+  margin: 2em 0;
+}
+
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
+.tile:nth-child(1),
+.tile:nth-child(2),
+.tile:nth-child(3) { 
+  border-bottom: $border;
+}
+
+.tile:nth-child(4),
+.tile:nth-child(5),
+.tile:nth-child(6) { 
+  border-top: $border;
+  border-bottom: $border;
+}
+
+.tile:nth-child(7),
+.tile:nth-child(8),
+.tile:nth-child(9) { 
+  border-top: $border;
+}
+
+.tile:nth-child(1),
+.tile:nth-child(2),
+.tile:nth-child(4),
+.tile:nth-child(5),
+.tile:nth-child(7),
+.tile:nth-child(8) {
+  border-right: $border;
+}
+
+.tile:nth-child(2),
+.tile:nth-child(3),
+.tile:nth-child(5),
+.tile:nth-child(6),
+.tile:nth-child(8),
+.tile:nth-child(9) {
+  border-left: $border;
+}
+
+.symbol {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  position: absolute;
+}
