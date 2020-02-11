@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useReducer } from 'react';
 import useGetWinner from '../hooks/useGetWinner';
 import useGameHistory from '../hooks/useGameHistory';
-import { selectRandomFreeIndex, isTileAvailable, getRandomPlayer, getNextPlayer } from '../utils/utils';
+import { WIN_TYPES, selectRandomFreeIndex, isTileAvailable, getRandomPlayer, getNextPlayer } from '../utils/utils';
 import minimax from '../utils/minimax';
 import tilesReducer from '../reducers/tilesReducer';
 import tilesData from '../data/tiles';
@@ -14,12 +14,14 @@ const Board = () => {
     const { winner, setWinner } = useGetWinner(tiles);
     const { history, setHistory } = useGameHistory(tiles, player, winner);
     const [godMode, setGodMode] = useState(false);
+    const [status, setStatus] = useState('');
 
     const resetGame = useCallback(() => {
         dispatch({ type: 'RESET_TILES' })
         setPlayer();
         setWinner();
         setHistory([]);
+        setStatus();
     }, [setHistory, setWinner, setPlayer]);
 
     const handleNewGameClick = () => {
@@ -61,6 +63,17 @@ const Board = () => {
         }
     }, [takeTurn, tiles, player, winner, godMode]);
 
+    useEffect(() => {
+        if (winner) {
+            if (winner.type === WIN_TYPES.DRAW) {
+                setStatus(`Ugh. Draw!`);
+            }
+            if (winner.type === WIN_TYPES.PLAYER) {
+                setStatus(`Congratulations, ${winner.player.name}!`);
+            }
+        }
+    }, [winner]);
+
     const mapTiles = tiles.map((tile, i) => <Tile key={i} index={i} tile={tile} handleClick={tileClick} />);
 
     return (
@@ -73,6 +86,9 @@ const Board = () => {
                 </span>
                 <div className={'board'}>
                     {mapTiles}
+                </div>
+                <div className={'status'} style={{'color': (winner && winner.player) ? winner.player.xoColor : '#000' }}>
+                    {status}
                 </div>
             </div>
             <div style={{'flex': 1}}>

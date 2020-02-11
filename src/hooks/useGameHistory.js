@@ -8,7 +8,6 @@ export default function useGameHistory(tiles, player, winner) {
         const openIndexes = getOpenIndexes(tiles);
         const winnerText = getWinnerText(winner);
         if (openIndexes.length !== 9) {
-            console.log('snapshot history')
             setHistory(history => {
                 return [
                     ...history,

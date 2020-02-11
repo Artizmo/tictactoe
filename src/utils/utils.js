@@ -47,7 +47,7 @@ export const getOpenIndexes = tiles => {
 export const getWinnerText = winner => {
     if (winner) {
         console.log('...', winner)
-        return (winner.type === WIN_TYPES.PLAYER) ? winner.player : winner.type;
+        return (winner.type === WIN_TYPES.PLAYER) ? winner.player.name : winner.type;
     }
 }
 

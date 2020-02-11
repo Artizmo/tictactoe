@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { playerA, playerB } from '../data/players';
 import { getOpenIndexes, getPlayerTileIndexes, WIN_TYPES, WIN_COMBOS } from '../utils/utils';
 
@@ -20,28 +20,28 @@ export default function useGetWinner(tiles) {
             if (combo.every(elem => humanIndexes.indexOf(elem) > -1)) {
                 setWinner({
                     type: WIN_TYPES.PLAYER,
-                    player: playerA.name
+                    player: playerA
                 });
             } else if (combo.every(elem => robotIndexes.indexOf(elem) > -1)) {            
                 setWinner({
                     type: WIN_TYPES.PLAYER,
-                    player: playerB.name
+                    player: playerB
                 });
             }            
         })
     }
 
-    useEffect(() => {
-        if (winner) {
-            console.log('winner', winner)
-            if (winner.type === WIN_TYPES.DRAW) {
-                console.log(`Ugh. Draw!`)
-            }
-            if (winner.type === WIN_TYPES.PLAYER) {
-                console.log(`Congratulations, ${winner.player}!`)
-            }
-        }
-    }, [winner]);
+    // useEffect(() => {
+    //     if (winner) {
+    //         console.log('winner', winner)
+    //         if (winner.type === WIN_TYPES.DRAW) {
+    //             console.log(`Ugh. Draw!`)
+    //         }
+    //         if (winner.type === WIN_TYPES.PLAYER) {
+    //             console.log(`Congratulations, ${winner.player}!`)
+    //         }
+    //     }
+    // }, [winner]);
 
     return {
         winner,
