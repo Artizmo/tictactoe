@@ -71,14 +71,16 @@ const Board = () => {
         <div style={{'display': 'flex'}}>
             <div style={{'flex': 1}}>
                 <Button handleClick={handleNewGameClick} label="New Game" />
-                <input type="checkbox" onClick={handleModeClick} />
-                <span>Godmode: {(godMode) ? 'true' : 'false' }</span>
+                <span className={'mode'}>
+                    <input type="checkbox" onClick={handleModeClick} />
+                    <span>Godmode: {(godMode) ? 'true' : 'false' }</span>
+                </span>
                 <div className={'board'}>
                     {mapTiles}
                 </div>
             </div>
             <div style={{'flex': 1}}>
-                <div>
+                <div className={'debug'}>
                     <i><b>debug: current game</b></i>
                     <pre>winner: {JSON.stringify(winner, null, 2)}</pre>
                     <pre>current player: {JSON.stringify(player, null, 2)}</pre>
@@ -86,7 +88,7 @@ const Board = () => {
                 </div>
             </div>
             <div style={{'flex': 1}}>
-                <div>
+                <div className={'debug'}>
                     <i><b>debug: move history</b></i>
                     <pre>{JSON.stringify(history, null, 2)}</pre>  
                 </div>
