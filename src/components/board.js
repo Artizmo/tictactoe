@@ -23,8 +23,6 @@ const Board = () => {
     }, [setHistory, setWinner, setPlayer]);
 
     const handleNewGameClick = () => {
-        console.clear();
-        console.log('NEW GAME!');
         resetGame();
         const newPlayer = getRandomPlayer();
         setPlayer({ ...newPlayer });
@@ -35,17 +33,16 @@ const Board = () => {
     }
 
     const takeTurn = useCallback(tile => {
-        if (player) {
+        if (player && !winner) {
             dispatch({ type: 'UPDATE_TILES', tile, player });
             const nextPlayer = getNextPlayer(player);
             setPlayer(nextPlayer);
         }
-    }, [player]);
+    }, [player, winner]);
 
     const tileClick = tileIndex => {
         if (player && player.type === 'human') {
             if (isTileAvailable(tiles[tileIndex])) {
-                console.log('you choose', tileIndex)
                 takeTurn(tileIndex);
             }
         }
@@ -60,7 +57,6 @@ const Board = () => {
             } else {
                 tile = selectRandomFreeIndex(tiles);
             }
-            console.log('move', tile);
             takeTurn(tile);
         }
     }, [takeTurn, tiles, player, winner, godMode]);
