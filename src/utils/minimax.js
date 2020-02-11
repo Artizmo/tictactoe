@@ -1,53 +1,81 @@
-// const minimax = (newTiles, player) => {
-//   console.log('minimax started')
-//   const freeTiles = getOpenTiles(newTiles);
+import { getOpenIndexes, getPlayerTileIndexes, WIN_COMBOS } from '../utils/utils';
+import { playerA, playerB } from '../data/players';
 
-//   if (checkForWinner(newTiles, playerA)) {
-//     return { score: -10 };
-//   }
-//   if (checkForWinner(newTiles, playerB)) {
-//     return { score: 10 };
-//   }
-//   if (freeTiles.length === 0) {
-//     return { score: 0 };
-//   }
+const checkWinner = (newTiles, player) => {
+    let winner = false;
+    const playerIndexes = getPlayerTileIndexes(newTiles, player);
 
-//   let moves = [];
-//   for (let i=0; i<freeTiles.length; i++) {
-//     let move = {};
-//     move.index = newTiles[freeTiles[i]];
-//     newTiles[freeTiles[i]] = {
-//       player
-//     }
+    WIN_COMBOS.forEach(combo => {
+        if (combo.every(elem => playerIndexes.indexOf(elem) > -1)) {
+            winner = true;        
+        }  
+    })
+    return winner;
+}
 
-//     if (player.type === 'robot') {
-//       let result = minimax(newTiles, playerA);
-//       move.score = result.score;
-//     } else {
-//       let result = minimax(newTiles, playerB);
-//       move.score = result.score;
-//     }
+const bestMove = board => {
+      // AI to make its turn
+  let bestScore = -Infinity;
+  let move;
+  
+  for (let i = 0; i < 9; i++) {
+    // for (let j = 0; j < 3; j++) {
+      // Is the spot available?
+      if (board[i] === '') {
+        board[i] = playerB.xo;
+        let score = minimax(board, 0, false);
+        board[i] = '';
+        if (score > bestScore) {
+          bestScore = score;
+          move = i;
+        }
+      }
+    // }
+  }
+  console.log('board', board)
+  return move
+  }    
 
-//     newTiles[freeTiles[i]] = move.index;
-//     moves.push(move);
-//   }
+  const minimax = (board, depth, isMaximizing) => {
+    let openIndexes = getOpenIndexes(board);
 
-//   let bestMove;
-//   if (player.type === 'robot') {
-//     let bestScore = -10000;
-//     for(let i=0; i < moves.length; i++) {
-//       if (moves[i].score > bestScore) {
-//         bestScore = moves[i].score;
-//         bestMove = i;
-//       }
-//     }
-//   } else {
-//     let bestScore = 10000;
-//     for(let i=0; i < moves.length; i++) {
-//       if (moves[i].score < bestScore) {
-//         bestScore = moves[i].score;
-//         bestMove = i;
-//       }
-//     }
-//   }
-//   return moves[bestMove];
+    if (checkWinner(board, playerB)) {
+        return -10;
+    } else if (checkWinner(board, playerA)) {
+        return 10;
+    } else if (openIndexes.length === 0) {
+        return 0;
+    }
+  
+    if (isMaximizing) {
+      let bestScore = -Infinity;
+      for (let i = 0; i < 9; i++) {
+        // for (let j = 0; j < 3; j++) {
+          // Is the spot available?
+          if (board[i] === '') {
+            board[i] = playerB.xo;
+            let score = minimax(board, depth + 1, false);
+            board[i] = '';
+            bestScore = Math.max(score, bestScore);
+          }
+        // }
+      }
+      return bestScore;
+    } else {
+      let bestScore = Infinity;
+      for (let i = 0; i < 3; i++) {
+        // for (let j = 0; j < 3; j++) {
+          // Is the spot available?
+          if (board[i] === '') {
+            board[i] = playerA.xo;
+            let score = minimax(board, depth + 1, true);
+            board[i] = '';
+            bestScore = Math.min(score, bestScore);
+          }
+        // }
+      }
+      return bestScore;
+    }
+  }
+
+export default bestMove;

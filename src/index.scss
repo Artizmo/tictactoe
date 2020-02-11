@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
 
 $border: .1em solid #000;
 
@@ -55,7 +55,28 @@ $border: .1em solid #000;
   border-left: $border;
 }
 
-.symbol {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+.symbol {  
+  font-family: 'Raleway';
+  font-size: 38pt;
   position: absolute;
+}
+
+.symbol--o {
+  color: rgb(88, 219, 116);
+}
+
+.symbol--x {
+  color: rgb(79, 126, 180);
+}
+
+h3 {
+  font-family: 'Raleway';
+}
+
+button {
+  font-family: 'Raleway';
+  background-color: rgb(39, 112, 196);
+  border: none;
+  padding: .5em .75em;
+  color: #fff;
 }
