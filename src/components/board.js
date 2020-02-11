@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useReducer } from 'react';
 import useGetWinner from '../hooks/useGetWinner';
 import useGameHistory from '../hooks/useGameHistory';
 import { selectRandomFreeIndex, isTileAvailable, getRandomPlayer, getNextPlayer } from '../utils/utils';
-import bestMove from '../utils/minimax';
+import minimax from '../utils/minimax';
 import tilesReducer from '../reducers/tilesReducer';
 import tilesData from '../data/tiles';
 import Tile from './tile';
@@ -53,9 +53,15 @@ const Board = () => {
 
     useEffect(() => {
         if (!winner && player && player.type === 'robot') {
-            const tileIndex = (godMode) ? bestMove(tiles) : selectRandomFreeIndex(tiles)
-            console.log('move', tileIndex);
-            takeTurn(tileIndex);
+            let tile = 0;
+            if (godMode) {
+                const bestMove = minimax(tiles, player);
+                tile = bestMove.index;
+            } else {
+                tile = selectRandomFreeIndex(tiles);
+            }
+            console.log('move', tile);
+            takeTurn(tile);
         }
     }, [takeTurn, tiles, player, winner, godMode]);
 
